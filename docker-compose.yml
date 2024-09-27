@@ -1,0 +1,54 @@
+version: "3"
+services:
+  mysqldb:   #서비스이름
+    container_name: sof-mysql  #컨테이너이름
+    image:  #사용할 이미지
+      mysql:8.0.36
+    restart:
+      always
+    ports:  #포트 포워딩
+      - "3307:3306"
+    env_file:  #환경 변수 파일 지정
+      - .env
+    networks:  #네트워크 연결설정명
+      - SecretsOfKitchen-network
+    environment:  #환경변수로 MYSQL 설정
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: Asia/Seoul
+    command:  #문자 집합,정렬 설정
+       - --character-set-server=utf8mb4
+       - --collation-server=utf8mb4_unicode_ci
+    volumes:  #data/mysql/폴더(호스트기반):mysql 기본경로 연결
+      - ./data/mysql/:/var/lib/mysql
+
+  spring:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PROFILES: dev
+        ENV: dev
+    container_name: sok-spring
+    ports:
+      - "8081:8080"
+    env_file:
+      - .env
+    networks:
+      - SecretsOfKitchen-network
+    depends_on:
+      - mysqldb
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/SecretsOfKitchen?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+      SPRING_FLYWAY_ENABLED: true
+      PROFILES: dev
+      ENV: dev
+
+networks:
+  SecretsOfKitchen-network:
+    driver: bridge
