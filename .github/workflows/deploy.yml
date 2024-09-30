@@ -44,3 +44,17 @@ jobs:
          APPLICATION: ${{ secrets.APPLICATION }}
          APPLICATION_DEV: ${{ secrets.APPLICATION_DEV }}
          APPLICATION_TEST: ${{ secrets.APPLICATION_TEST }}
+
+     - name: DockerHub 로그인
+       uses: docker/login-ation@v2
+       with:
+         username: $ {{ secrets.DOCKER_HUB_USERNAME }}
+         password: $ {{ secrets.DOCKER_HUB_TOKEN }}
+     - name: Docker Image 빌드 and DockerHub Push
+       uses:  docker/build-push-action@v4
+       with:
+         context: ./SecretsOfKitchen
+         file: ./SecretsOfKitchen/Dockerfile
+         push: true
+         platforms: linux/amd64
+         tags: ${{ env.DOCKER_HUB_REPOSITORY }}:latest
