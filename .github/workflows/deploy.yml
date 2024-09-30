@@ -34,3 +34,13 @@ jobs:
        run: chmod +x ./gradlew
      - name: Gradle 빌드실행
        run: ./gradlew bootJar
+
+     - name: application.yml 수정 실행
+       run: |
+         echo "APPLICATION" > ./application.yml
+         echo "APPLICATION_DEV" > ./application-dev.yml
+         echo "APPLICATION_TEST" > ./application-test.yml
+       env:
+         APPLICATION: ${{ secrets.APPLICATION }}
+         APPLICATION_DEV: ${{ secrets.APPLICATION_DEV }}
+         APPLICATION_TEST: ${{ secrets.APPLICATION_TEST }}
