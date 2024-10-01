@@ -41,19 +41,19 @@ jobs:
        run: |
          echo "APPLICATION" > ./application.yml
          echo "APPLICATION_DEV" > ./application-dev.yml
-         echo " password: '${{ secrets.DB_PASSWORD }}'" >> ./application-dev.yml
+         echo "password: '${{ secrets.DB_PASSWORD }}'" >> ./application.yml
          echo "APPLICATION_TEST" > ./application-test.yml
        env:
          APPLICATION: ${{ secrets.APPLICATION }}
-         APPLICATION_DEV: ${{ secrets.APPLICATION_DEV }}
          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+         APPLICATION_DEV: ${{ secrets.APPLICATION_DEV }}
          APPLICATION_TEST: ${{ secrets.APPLICATION_TEST }}
 
      - name: DockerHub 로그인
-       uses: docker/login-ation@v2
+       uses: docker/login-action@v2
        with:
-         username: $ {{ secrets.DOCKER_HUB_USERNAME }}
-         password: $ {{ secrets.DOCKER_HUB_TOKEN }}
+         username: ${{ secrets.DOCKER_HUB_USERNAME }}
+         password: ${{ secrets.DOCKER_HUB_TOKEN }}
      - name: Docker Image 빌드 and DockerHub Push
        uses:  docker/build-push-action@v4
        with:
