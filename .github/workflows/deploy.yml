@@ -69,7 +69,7 @@ jobs:
     steps:
       - name: set IP
         run: |    
-          STATUS=$(curl -o /dev/null -w "%{http_code}" "https://${{ secrets.LIVE_SERVER_IP }}/env"
+          STATUS=$(curl -o /dev/null -w "%{http_code}" "https://${{ secrets.LIVE_SERVER_IP }}/env")
           echo $STATUS
           if [ $STATUS = 200 ]; then
             CURRENT_UPSTREAM=$(curl -s "http://${{ secrets.LIVE_SERVER_IP }}/env")
