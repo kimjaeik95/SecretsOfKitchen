@@ -39,10 +39,12 @@ jobs:
        run: |
          echo "APPLICATION" > ./application.yml
          echo "APPLICATION_DEV" > ./application-dev.yml
+          echo " password: '${{ secrets.DB_PASSWORD }}'" >> ./application-dev.yml
          echo "APPLICATION_TEST" > ./application-test.yml
        env:
          APPLICATION: ${{ secrets.APPLICATION }}
          APPLICATION_DEV: ${{ secrets.APPLICATION_DEV }}
+         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
          APPLICATION_TEST: ${{ secrets.APPLICATION_TEST }}
 
      - name: DockerHub 로그인
