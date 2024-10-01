@@ -8,7 +8,7 @@ on:
 permissions:
   contents: read
 env:
-  DOCKER_HUB_REPOSITORY: sok-server
+  DOCKER_HUB_REPOSITORY: secretsofkitchen-java
 
 jobs:
   build:
