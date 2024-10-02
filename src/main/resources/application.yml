@@ -1,0 +1,63 @@
+spring:
+  profiles:
+    active: local
+    group:
+      local: local, common
+      blue: blue, common
+      green: green, common
+
+server:
+  env: blue
+
+---
+spring:
+ config:
+   activate:
+    on-profile: local
+server:
+  port: 8080
+  serverAddress: localhost
+
+serverName: local_server
+
+---
+spring:
+ config:
+  activate:
+   on-profile: blue
+server:
+ port: 8080
+ serverAddress: 3.38.207.161
+
+serverName: blue_server
+
+---
+spring:
+ config:
+  activate:
+   on-profile: green
+server:
+ port: 8081
+ serverAddress: 3.38.207.161
+
+serverName: green_server
+
+---
+spring:
+ config:
+  activate:
+    on-profile: common
+
+ datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/SecretsOfKitchen?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: ${DB_PASSWORD}
+
+ flyway:
+  enabled: true
+  locations: classpath:db/migration
+  baseline-on-migrate: true  #flyway_schema_history 테이블이 없을 때, 자동으로 생성 , Baseline 설정
+
+server:
+ port: 8080
