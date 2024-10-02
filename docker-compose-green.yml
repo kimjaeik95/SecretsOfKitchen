@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   green:
-    image: kimjaeik95/sok_server:latest
+    image: kimjaeik95/secretsofkitchen-java:latest
     container_name: blue
     ports:
       - "8081:8081"
